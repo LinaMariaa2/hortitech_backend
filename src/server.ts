@@ -19,14 +19,22 @@ const allowedOrigins = [
 // ✅ Configuración de CORS
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
-      callback(null, true);
-    } else {
-      console.warn("❌ CORS bloqueado para origen:", origin);
-      callback(new Error("No permitido por CORS"));
+    if (!origin) return callback(null, true); // permitir peticiones del mismo servidor
+
+    try {
+      const originURL = new URL(origin).origin; // limpia puertos y barras
+      if (allowedOrigins.includes(originURL)) {
+        return callback(null, true);
+      }
+    } catch (err) {
+      console.error("Error al parsear origen:", origin);
     }
+
+    console.warn("❌ CORS bloqueado para origen:", origin);
+    return callback(new Error("No permitido por CORS"));
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
 
