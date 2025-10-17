@@ -18,10 +18,18 @@ const allowedOrigins = [
 
 // ✅ Configuración de CORS
 app.use(cors({
-  origin: allowedOrigins,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
+      callback(null, true);
+    } else {
+      console.warn("❌ CORS bloqueado para origen:", origin);
+      callback(new Error("No permitido por CORS"));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
 }));
+
 
 // Logger
 app.use(morgan('dev'));
