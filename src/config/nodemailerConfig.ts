@@ -1,9 +1,9 @@
-// src/config/nodemailerConfig.ts
 import nodemailer from 'nodemailer';
-// No necesitas dotenv aquí si ya lo cargas en index.ts
-// import dotenv from 'dotenv';
-// dotenv.config();
 
+// Temporalmente desactivamos el transporte de correo para evitar errores en producción
+// Si luego configuras el correo, puedes descomentar esto
+
+/* 
 export const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth: {
@@ -20,3 +20,11 @@ transporter.verify((error, success) => {
         console.log('Servidor de correo listo para enviar mensajes.');
     }
 });
+*/
+
+// 🚧 Mientras tanto exportamos un "falso" transporter para que el resto del código no falle
+export const transporter = {
+  sendMail: async () => {
+    console.log('Simulación: correo no enviado (servicio de correo deshabilitado temporalmente)');
+  },
+};
