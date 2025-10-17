@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 // No necesitas dotenv aquí si ya lo cargas en index.ts
 // import dotenv from 'dotenv';
 // dotenv.config();
-
+const isRender = process.env.RENDER === "true";
 export const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth: {
