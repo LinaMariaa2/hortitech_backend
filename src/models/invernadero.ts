@@ -5,7 +5,9 @@ import { Zona } from './zona';
 
 @Table({ tableName: 'tbl_invernadero', timestamps: true, underscored: true })
 export class Invernadero extends Model {
+  //Integracion de fk
   @PrimaryKey
+
   @AutoIncrement
   @Column({ type: DataType.INTEGER, allowNull: false })
   declare id_invernadero: number;
